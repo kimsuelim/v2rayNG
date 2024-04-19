@@ -71,4 +71,11 @@ data class ServerConfig(
         val port = getProxyOutbound()?.getServerPort()
         return Utils.getIpv6Address(address) + ":" + port
     }
+
+    // protocol: vmess(ws+tls)
+    fun getV2rayPointProtocol(): String {
+        val name = outboundBean?.protocol
+        val stream = outboundBean?.streamSettings?.network + "+" + outboundBean?.streamSettings?.security
+        return "$name($stream)"
+    }
 }

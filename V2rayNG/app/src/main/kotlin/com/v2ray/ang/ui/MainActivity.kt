@@ -30,6 +30,7 @@ import com.tencent.mmkv.MMKV
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.ANG_PACKAGE
 import com.v2ray.ang.R
+import com.v2ray.ang.cloud.Server
 import com.v2ray.ang.databinding.ActivityMainBinding
 import com.v2ray.ang.dto.EConfigType
 import com.v2ray.ang.extension.toast
@@ -112,6 +113,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupViewModel()
         copyAssets()
         //migrateLegacy()
+        syncServers()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RxPermissions(this)
@@ -132,6 +134,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
         })
+    }
+
+    private fun syncServers() {
+        // Create a new coroutine on the UI thread
+        lifecycleScope.launch {
+            // Make the network call and suspend execution until it finishes
+            Server.syncServerWithCloud()
+
+            // Display result of the network request to the user
+            mainViewModel.reloadServerList()
+        }
     }
 
     private fun setupViewModel() {
