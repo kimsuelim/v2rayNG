@@ -23,7 +23,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
             buildConfigField("String", "API_HOST_URL", System.getenv("API_HOST_URL") ?: "")
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", System.getenv("HTTP_BASIC_AUTH_USER") ?: "")
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", System.getenv("HTTP_BASIC_AUTH_PASSWORD") ?: "")
@@ -31,10 +33,24 @@ android {
 
         debug {
             isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+
             buildConfigField("String", "API_HOST_URL", project.properties["DEBUG_API_URL"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", project.properties["HTTP_BASIC_AUTH_USER"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", project.properties["HTTP_BASIC_AUTH_PASSWORD"].toString())
         }
+
+        create("staging") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".staging"
+        }
+
+        create("internal") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".test"
+        }
+
     }
 
     sourceSets {
