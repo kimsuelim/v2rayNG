@@ -30,6 +30,7 @@ import com.tencent.mmkv.MMKV
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.ANG_PACKAGE
 import com.v2ray.ang.R
+import com.v2ray.ang.cloud.SentryConfig
 import com.v2ray.ang.cloud.Server
 import com.v2ray.ang.databinding.ActivityMainBinding
 import com.v2ray.ang.dto.EConfigType
@@ -114,6 +115,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         copyAssets()
         //migrateLegacy()
         syncServers()
+        SentryConfig.attachCustomContext()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RxPermissions(this)

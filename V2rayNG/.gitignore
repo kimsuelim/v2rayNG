@@ -8,3 +8,6 @@
 *.apk
 signing.properties
 *.aar
+
+# Sentry Config File
+sentry.properties

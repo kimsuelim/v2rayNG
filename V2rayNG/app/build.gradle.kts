@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
+    id("io.sentry.android.gradle") version "4.4.1"
 }
 
 android {
@@ -143,4 +145,10 @@ dependencies {
 
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.work:work-multiprocess:2.8.1")
+}
+
+sentry {
+    org.set("imc-5b")
+    projectName.set("android")
+    includeSourceContext.set(true)
 }
