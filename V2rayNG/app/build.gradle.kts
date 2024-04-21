@@ -28,13 +28,12 @@ android {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
-            buildConfigField("String", "API_HOST_URL", System.getenv("API_HOST_URL") ?: "")
-            buildConfigField("String", "HTTP_BASIC_AUTH_USER", System.getenv("HTTP_BASIC_AUTH_USER") ?: "")
-            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", System.getenv("HTTP_BASIC_AUTH_PASSWORD") ?: "")
+            buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
+            buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
+            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
         }
 
         debug {
-            isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
@@ -44,15 +43,18 @@ android {
         }
 
         create("staging") {
-            initWith(getByName("release"))
+            initWith(getByName("debug"))
             applicationIdSuffix = ".staging"
+            buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
+            buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
+            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
         }
 
         create("internal") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".test"
+            buildConfigField("String", "API_HOST_URL", project.properties["INTERNAL_API_URL"].toString())
         }
-
     }
 
     sourceSets {

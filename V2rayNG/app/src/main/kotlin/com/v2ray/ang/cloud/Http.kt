@@ -33,6 +33,7 @@ object Http {
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json; utf-8")
             setRequestProperty("Accept", "application/json")
+            setRequestProperty("User-agent", "v2rayNG/${BuildConfig.VERSION_NAME}")
             setRequestProperty("Authorization", "Basic ${Utils.encode(auth)}")
             doOutput = true
             outputStream.write(jsonBody.toByteArray())
