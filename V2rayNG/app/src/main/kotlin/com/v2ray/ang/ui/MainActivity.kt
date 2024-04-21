@@ -30,6 +30,7 @@ import com.tencent.mmkv.MMKV
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.AppConfig.ANG_PACKAGE
 import com.v2ray.ang.R
+import com.v2ray.ang.cloud.DeviceManager
 import com.v2ray.ang.cloud.SentryConfig
 import com.v2ray.ang.cloud.Server
 import com.v2ray.ang.databinding.ActivityMainBinding
@@ -116,6 +117,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //migrateLegacy()
         syncServers()
         SentryConfig.attachCustomContext()
+        activateDevice()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RxPermissions(this)
@@ -136,6 +138,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
         })
+    }
+
+    private fun activateDevice() {
+        lifecycleScope.launch {
+            if (DeviceManager.isActivated()) {
+                Log.i(ANG_PACKAGE, "activateDevice: activated")
+            } else {
+                DeviceManager.activateDevice()
+            }
+        }
     }
 
     private fun syncServers() {

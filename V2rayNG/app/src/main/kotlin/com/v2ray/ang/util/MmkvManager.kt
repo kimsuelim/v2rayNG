@@ -16,6 +16,7 @@ object MmkvManager {
     const val ID_SUB = "SUB"
     const val ID_ASSET = "ASSET"
     const val ID_SETTING = "SETTING"
+    const val ID_DEVICE = "DEVICE"
     const val KEY_SELECTED_SERVER = "SELECTED_SERVER"
     const val KEY_ANG_CONFIGS = "ANG_CONFIGS"
 
