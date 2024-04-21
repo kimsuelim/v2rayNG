@@ -32,7 +32,7 @@ import com.v2ray.ang.AppConfig.ANG_PACKAGE
 import com.v2ray.ang.R
 import com.v2ray.ang.cloud.DeviceManager
 import com.v2ray.ang.cloud.SentryConfig
-import com.v2ray.ang.cloud.Server
+import com.v2ray.ang.cloud.ServerManager
 import com.v2ray.ang.databinding.ActivityMainBinding
 import com.v2ray.ang.dto.EConfigType
 import com.v2ray.ang.extension.toast
@@ -154,7 +154,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Create a new coroutine on the UI thread
         lifecycleScope.launch {
             // Make the network call and suspend execution until it finishes
-            Server.syncServerWithCloud()
+            ServerManager.syncServerWithCloud()
 
             // Display result of the network request to the user
             mainViewModel.reloadServerList()
