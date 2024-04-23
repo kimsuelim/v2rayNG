@@ -20,7 +20,7 @@ object DeviceManager {
     suspend fun activateDevice(): Any {
         return withContext(Dispatchers.IO) {
             try {
-                val url = getApiHost() + "/device"
+                val url = getApiHost() + "/devices"
                 val deviceDto = DeviceDto(
                     uuid = getDeviceUuid(),
                     networkInfo = SysInfo.networkInfo(),
@@ -42,7 +42,7 @@ object DeviceManager {
     suspend fun getActivatedDevice(): Any {
         return withContext(Dispatchers.IO) {
             try {
-                val url = getApiHost() + "/device" + "/" + getDeviceUuid()
+                val url = getApiHost() + "/devices" + "/" + getDeviceUuid()
                 val resp = Http.get(url)
                 Log.i(AppConfig.ANG_PACKAGE, "getActivatedDevice: $resp")
             } catch (e: Exception) {
