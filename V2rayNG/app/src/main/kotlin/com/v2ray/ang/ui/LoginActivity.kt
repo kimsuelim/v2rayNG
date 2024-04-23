@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.compose.rememberAsyncImagePainter
 import com.v2ray.ang.viewmodel.LoginViewModel
 import com.v2ray.ang.AppConfig
@@ -42,10 +43,9 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d(AppConfig.ANG_PACKAGE, "LoginActivity onCreate")
+        installSplashScreen()
 
         val intent = Intent(this, MainActivity::class.java)
-
         if (UserManager.isAuthenticated()) {
             startActivity(intent)
             return

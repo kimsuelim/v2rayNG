@@ -160,6 +160,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.work:work-multiprocess:2.8.1")
 
+    // Splash Screen
+    implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
+
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2024.04.01")
     implementation(composeBom)

@@ -42,7 +42,7 @@
         android:banner="@mipmap/ic_banner"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDayNight"
+        android:theme="@style/Theme.AppSplash"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity

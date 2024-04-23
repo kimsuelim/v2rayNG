@@ -12,5 +12,9 @@
 * [Gradle tips and recipes](https://developer.android.com/build/gradle-tips#kts)
 * [Gradle: Android Build Variables Done Right](https://rafamatias.medium.com/gradle-android-build-variables-done-right-d0c0e296ee93)
 
+### Splash Screen
+* [Splash Screen in Android](https://proandroiddev.com/splash-screen-in-android-3bd9552b92a5)
+* [Splash screens](https://developer.android.com/develop/ui/views/launch/splash-screen)
+
 ### Tools
 * [localtunnel](https://github.com/localtunnel/localtunnel)
