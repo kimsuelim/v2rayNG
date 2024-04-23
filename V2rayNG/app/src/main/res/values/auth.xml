@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="initial_title">Welcome to the app!</string>
-    <string name="logged_in_title">You’re logged in!</string>
-    <string name="logged_out_title">You’re logged out.</string>
-    <string name="log_in_button">Log In</string>
-    <string name="log_out_button">Log Out</string>
-    <string name="name_label">Name</string>
-    <string name="email_label">Email</string>
-    <string name="user_icon_url">https://images.ctfassets.net/23aumh6u8s0i/5hHkO5DxWMPxDjc2QZLXYf/403128092dedc8eb3395314b1d3545ad/icon-user.png</string>
+    <string name="title_sign_in">Sign in to your account</string>
+    <string name="title_sign_up_for_account">Sign up for account</string>
+    <string name="title_logged_in">You’re logged in!</string>
+    <string name="title_logged_out">You’re logged out.</string>
+<!--    <string name="hero_title_sign_in">Hello,\nWelcome to the app!</string>-->
+
+    <string name="label_name">Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_out">Sign Out</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_need_account">Need an account?</string>
+    <string name="action_already_have_account">Already have an account?</string>
+
+    <string name="error_sign_in">Invalid email or password</string>
+    <string name="error_title">Whoops</string>
+    <string name="error_action">OK</string>
 </resources>

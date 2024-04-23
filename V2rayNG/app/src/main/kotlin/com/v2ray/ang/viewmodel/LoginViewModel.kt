@@ -1,84 +1,68 @@
 package com.v2ray.ang.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.auth0.android.Auth0
-import com.auth0.android.authentication.AuthenticationException
-import com.auth0.android.callback.Callback
-import com.auth0.android.provider.WebAuthProvider
-import com.auth0.android.result.Credentials
-import com.v2ray.ang.BuildConfig
-import com.v2ray.ang.cloud.User
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import com.v2ray.ang.R
+import com.v2ray.ang.cloud.Http
 import com.v2ray.ang.cloud.UserManager
+import com.v2ray.ang.cloud.dto.UserDto
+import io.sentry.Sentry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class LoginViewModel : ViewModel() {
-    var appJustLaunched by mutableStateOf(true)
+    var userName by mutableStateOf("")
+    var userPassword by mutableStateOf("")
     var userIsAuthenticated by mutableStateOf(false)
     val isAuthenticated by lazy { MutableLiveData(false) }
-    var user by mutableStateOf(User())
+    var error by mutableStateOf("")
+    val showToast by lazy { MutableLiveData("") }
 
     private val TAG = "LoginViewModel"
-    private lateinit var account: Auth0
-    private lateinit var context: Context
-
-    fun setContext(activityContext: Context) {
-        context = activityContext
-        account = Auth0(
-            BuildConfig.AUTH0_CLIENT_ID,
-            BuildConfig.AUTH0_DOMAIN
-        )
-    }
 
     fun login() {
-        WebAuthProvider
-            .login(account)
-            .withScheme("app")
-            .start(context, object : Callback<Credentials, AuthenticationException> {
-                override fun onFailure(error: AuthenticationException) {
-                    // The user either pressed the “Cancel” button
-                    // on the Universal Login screen or something
-                    // unusual happened.
-                    Log.e(TAG, "Error occurred in login(): $error")
-                }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val url = Http.getApiHost() + "/login"
+                    val userParams = UserDto(
+                        name = userName,
+                        email = userName,
+                        password = userPassword
+                    )
+                    val jsonString = Gson().toJson(userParams)
+                    val resp = Http.post(url, jsonString)
+                    Log.i(TAG, "Resp: $resp")
 
-                override fun onSuccess(result: Credentials) {
-                    // The user successfully logged in.
-                    val idToken = result.idToken
-
-                    // TODO: 🚨 REMOVE BEFORE GOING TO PRODUCTION!
-                    Log.d(TAG, "ID token: $idToken")
-
-                    user = User(idToken)
+                    val user = Gson().fromJson(resp, UserDto::class.java)
                     UserManager.setDeviceUser(user) // Keep order
                     userIsAuthenticated = true
-                    isAuthenticated.value = true
-                    appJustLaunched = false
+                    isAuthenticated.postValue(true) // Cannot invoke setValue on a background thread
+                } catch (e: IOException) {
+                    Log.e(TAG, "Error occurred in login(): $e")
+                    //error = R.string.error_sign_in.toString()
+                    showToast.postValue(R.string.error_sign_in.toString())
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error occurred in login(): $e")
+                    //error = "Something went wrong!"
+                    showToast.postValue(R.string.error_sign_in.toString())
+                    Sentry.captureException(e)
                 }
-            })
+            }
+        }
     }
 
     fun logout() {
-        WebAuthProvider
-            .logout(account)
-            .withScheme("app")
-            .start(context, object : Callback<Void?, AuthenticationException> {
-                override fun onFailure(error: AuthenticationException) {
-                    // For some reason, logout failed.
-                    Log.e(TAG, "Error occurred in logout(): $error")
-                }
-
-                override fun onSuccess(result: Void?) {
-                    // The user successfully logged out.
-                    user = User()
-                    UserManager.clearDeviceUser()
-                    userIsAuthenticated = false
-                    isAuthenticated.value = false
-                }
-            })
+        UserManager.clearDeviceUser()
+        userIsAuthenticated = false
+        isAuthenticated.value = false
     }
 }

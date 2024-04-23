@@ -2,6 +2,7 @@ package com.v2ray.ang.cloud
 
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
+import com.v2ray.ang.cloud.dto.UserDto
 import com.v2ray.ang.util.MmkvManager
 
 object UserManager {
@@ -14,7 +15,7 @@ object UserManager {
         )
     }
 
-    fun setDeviceUser(user: User) {
+    fun setDeviceUser(user: UserDto) {
         val jsonStr = Gson().toJson(user)
         deviceStorage.encode(DEVICE_USER, jsonStr)
     }
@@ -23,9 +24,9 @@ object UserManager {
         deviceStorage.encode(DEVICE_USER, "")
     }
 
-    fun getDeviceUser(): User {
+    fun getDeviceUser(): UserDto {
         val jsonString = deviceStorage.decodeString(DEVICE_USER)
-        return Gson().fromJson(jsonString, User::class.java)
+        return Gson().fromJson(jsonString, UserDto::class.java)
     }
 
     fun isAuthenticated(): Boolean {

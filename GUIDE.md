@@ -16,5 +16,9 @@
 * [Splash Screen in Android](https://proandroiddev.com/splash-screen-in-android-3bd9552b92a5)
 * [Splash screens](https://developer.android.com/develop/ui/views/launch/splash-screen)
 
+### State and Jetpack Compose
+[State Hoisting](https://developer.android.com/develop/ui/compose/state?hl=ko#state-hoisting)
+[Preview UI with composable previews](https://developer.android.com/develop/ui/compose/tooling/previews)
+
 ### Tools
 * [localtunnel](https://github.com/localtunnel/localtunnel)
