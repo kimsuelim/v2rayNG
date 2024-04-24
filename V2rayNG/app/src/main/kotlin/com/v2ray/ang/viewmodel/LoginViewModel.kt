@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.v2ray.ang.R
 import com.v2ray.ang.cloud.Http
 import com.v2ray.ang.cloud.UserManager
+import com.v2ray.ang.cloud.UserManager.getDeviceAdmin
 import com.v2ray.ang.cloud.dto.UserDto
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
@@ -32,20 +33,22 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val url = Http.getApiHost() + "/login"
-                    val userParams = UserDto(
-                        name = userName,
-                        email = userName,
-                        password = userPassword
-                    )
-                    val jsonString = Gson().toJson(userParams)
-                    val resp = Http.post(url, jsonString)
-                    Log.i(TAG, "Resp: $resp")
+                    if (loginWithAdmin()) {
+                        return@withContext
+                    } else {
+                        val url = Http.getApiHost() + "/login"
+                        val userParams = UserDto(
+                            name = userName,
+                            email = userName,
+                            password = userPassword
+                        )
+                        val jsonString = Gson().toJson(userParams)
+                        val resp = Http.post(url, jsonString)
+                        Log.i(TAG, "Resp: $resp")
+                        val user = Gson().fromJson(resp, UserDto::class.java)
 
-                    val user = Gson().fromJson(resp, UserDto::class.java)
-                    UserManager.setDeviceUser(user) // Keep order
-                    userIsAuthenticated = true
-                    isAuthenticated.postValue(true) // Cannot invoke setValue on a background thread
+                        signed(user)
+                    }
                 } catch (e: IOException) {
                     Log.e(TAG, "Error occurred in login(): $e")
                     //error = R.string.error_sign_in.toString()
@@ -58,6 +61,20 @@ class LoginViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    private fun loginWithAdmin(): Boolean {
+        val admin = getDeviceAdmin()
+        if (!(admin.email == userName && admin.password == userPassword)) return false
+
+        signed(admin)
+        return true
+    }
+
+    private fun signed(user: UserDto) {
+        UserManager.setDeviceUser(user) // Keep order
+        userIsAuthenticated = true
+        isAuthenticated.postValue(true) // Cannot invoke setValue on a background thread
     }
 
     fun logout() {

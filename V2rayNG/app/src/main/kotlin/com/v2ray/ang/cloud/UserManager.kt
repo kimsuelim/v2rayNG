@@ -7,6 +7,7 @@ import com.v2ray.ang.util.MmkvManager
 
 object UserManager {
     private const val DEVICE_USER = "device_user"
+    private const val DEVICE_ADMIN = "device_admin"
 
     private val deviceStorage by lazy {
         MMKV.mmkvWithID(
@@ -31,5 +32,25 @@ object UserManager {
 
     fun isAuthenticated(): Boolean {
         return !deviceStorage.decodeString(DEVICE_USER).isNullOrBlank()
+    }
+
+    fun setDeviceAdmin() {
+        val admin = UserDto(
+            name = "admin",
+            email = "admin@admin",
+            password = "admin"
+        )
+
+        val jsonStr = Gson().toJson(admin)
+        deviceStorage.encode(DEVICE_ADMIN, jsonStr)
+    }
+
+    fun getDeviceAdmin() : UserDto {
+        val jsonString = deviceStorage.decodeString(DEVICE_ADMIN)
+        return Gson().fromJson(jsonString, UserDto::class.java)
+    }
+
+    fun clearDeviceAdmin() {
+        deviceStorage.encode(DEVICE_ADMIN, "")
     }
 }

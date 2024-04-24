@@ -14,8 +14,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.v2ray.ang.viewmodel.LoginViewModel
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.cloud.UserManager
+import com.v2ray.ang.cloud.UserManager.setDeviceAdmin
 import com.v2ray.ang.cloud.ui.LoginScreen
 import com.v2ray.ang.extension.toast
+import io.sentry.Sentry
 
 
 class LoginActivity : ComponentActivity() {
@@ -24,7 +26,7 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //UserManager.clearDeviceUser()
+        initDevice()
         installSplashScreen()
 
         val intent = Intent(this, MainActivity::class.java)
@@ -57,6 +59,15 @@ class LoginActivity : ComponentActivity() {
                     LoginScreen(loginViewModel)
                 }
             }
+        }
+    }
+
+    private fun initDevice() {
+        try {
+            //UserManager.clearDeviceUser()
+            setDeviceAdmin()
+        } catch (e: Exception) {
+            Sentry.captureException(e)
         }
     }
 }
