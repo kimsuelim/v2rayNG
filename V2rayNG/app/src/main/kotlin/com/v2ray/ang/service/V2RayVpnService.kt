@@ -112,7 +112,7 @@ class V2RayVpnService : VpnService(), ServiceControl {
         //val enableLocalDns = defaultDPreference.getPrefBoolean(AppConfig.PREF_LOCAL_DNS_ENABLED, false)
 
         val routingMode = settingsStorage?.decodeString(AppConfig.PREF_ROUTING_MODE)
-            ?: ERoutingMode.BYPASS_LAN_MAINLAND.value
+            ?: ERoutingMode.PROXY_ONLY_GFW_LIST.value
 
         builder.setMtu(VPN_MTU)
         builder.addAddress(PRIVATE_VLAN4_CLIENT, 30)
