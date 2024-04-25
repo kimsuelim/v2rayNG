@@ -278,6 +278,7 @@
         <item>Bypass mainland address then proxy</item>
         <item>Bypassing LAN and mainland address then proxy</item>
         <item>Global direct</item>
+        <item>Proxy only GFWList</item>
     </string-array>
 
     <string-array name="mode_entries">

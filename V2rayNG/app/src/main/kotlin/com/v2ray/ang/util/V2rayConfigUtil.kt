@@ -224,6 +224,21 @@ object V2rayConfigUtil {
                     )
                     v2rayConfig.routing.rules.add(globalDirect)
                 }
+
+                ERoutingMode.PROXY_ONLY_GFW_LIST.value -> {
+                    v2rayConfig.routing.domainStrategy = "IPOnDemand"
+                    v2rayConfig.routing.domainMatcher = "mph"
+                    routingGeo("ip", "private", AppConfig.TAG_DIRECT, v2rayConfig)
+                    routingGeo("domain", "gfw", AppConfig.TAG_PROXY, v2rayConfig)
+                    routingGeo("domain", "greatfire", AppConfig.TAG_PROXY, v2rayConfig)
+                    v2rayConfig.routing.rules.add(0, googleapisRoute)
+                    v2rayConfig.routing.rules.add(
+                        V2rayConfig.RoutingBean.RulesBean(
+                            inboundTag = listOf("socks", "http"),
+                            outboundTag = AppConfig.TAG_DIRECT,
+                        )
+                    )
+                }
             }
 
             if(routingMode != ERoutingMode.GLOBAL_DIRECT.value) {
