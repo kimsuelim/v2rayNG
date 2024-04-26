@@ -1,3 +1,15 @@
+### Build dependencies
+
+    $ mkdir build
+    $ cd build
+    $ git clone https://github.com/kimsuelim/AndroidLibXrayLite.git
+    $ cd AndroidLibXrayLite
+    $ go get github.com/xtls/xray-core@$latest
+    $ gomobile init
+    $ go mod tidy -v
+    $ gomobile bind -v -androidapi 21 -ldflags='-s -w' ./
+    $ cp *.aar ../app/libs/
+
 ### Exposes localhost to the world for easy testing
 
     $ npm install -g localtunnel
