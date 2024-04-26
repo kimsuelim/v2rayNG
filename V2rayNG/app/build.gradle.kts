@@ -16,10 +16,6 @@ android {
         versionCode = 554
         versionName = "1.8.20"
         multiDexEnabled = true
-
-        manifestPlaceholders["auth0Domain"] = project.properties["AUTH0_DOMAIN"].toString()
-        manifestPlaceholders["auth0Scheme"] = "app"
-        buildConfigField("String", "AUTH0_DOMAIN", "\"${project.properties["AUTH0_DOMAIN"].toString()}\"")
     }
 
     compileOptions {
@@ -41,7 +37,6 @@ android {
             applicationIdSuffix = ".debug"
             isDebuggable = true
 
-            buildConfigField("String", "AUTH0_CLIENT_ID", "\"${project.properties["DEBUG_AUTH0_CLIENT_ID"].toString()}\"")
             buildConfigField("String", "API_HOST_URL", project.properties["DEBUG_API_URL"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", project.properties["HTTP_BASIC_AUTH_USER"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", project.properties["HTTP_BASIC_AUTH_PASSWORD"].toString())
@@ -50,7 +45,6 @@ android {
         create("staging") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".staging"
-            buildConfigField("String", "AUTH0_CLIENT_ID", "\"${project.properties["STAGING_AUTH0_CLIENT_ID"].toString()}\"")
             buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
@@ -59,7 +53,6 @@ android {
         create("internal") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".test"
-            buildConfigField("String", "AUTH0_CLIENT_ID", "\"${project.properties["INTERNAL_AUTH0_CLIENT_ID"].toString()}\"")
             buildConfigField("String", "API_HOST_URL", project.properties["INTERNAL_API_URL"].toString())
         }
     }
@@ -176,13 +169,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime-livedata")
     implementation("androidx.compose.ui:ui-tooling")
-
-    // Coil image loading library
-    implementation("io.coil-kt:coil-compose:2.6.0")
-
-    // Auth0 dependencies
-    implementation("com.auth0.android:auth0:2.10.2")
-    implementation("com.auth0.android:jwtdecode:2.0.2")
 }
 
 sentry {
