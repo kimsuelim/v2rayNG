@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">v2rayNG</string>
+    <string name="app_name" translatable="false">Panda</string>
     <string name="app_widget_name">Switch</string>
     <string name="app_tile_name">Switch</string>
     <string name="app_tile_first_use">First use of this feature, please use the app to add server</string>
@@ -19,7 +19,8 @@
     <string name="toast_services_failure">Start Services Failure</string>
 
     <!--ServerActivity-->
-    <string name="title_server">Configuration file</string>
+<!--    <string name="title_server">Configuration file</string>-->
+    <string name="title_server">Servers</string>
     <string name="menu_item_add_config">Add config</string>
     <string name="menu_item_save_config">Save config</string>
     <string name="menu_item_del_config">Delete config</string>
@@ -219,8 +220,10 @@
     <string name="sub_setting_enable">Enable update</string>
     <string name="sub_auto_update">Enable automatic update</string>
     <string name="title_sub_update">Update subscription</string>
-    <string name="title_ping_all_server">Tcping all configuration</string>
-    <string name="title_real_ping_all_server">Real delay all configuration</string>
+    <string name="title_ping_all_server">Connection test(PING)</string>
+    <string name="title_real_ping_all_server">Connection test(HTTP)</string>
+<!--    <string name="title_ping_all_server">Tcping all configuration</string>-->
+<!--    <string name="title_real_ping_all_server">Real delay all configuration</string>-->
     <string name="title_user_asset_setting">Geo asset files</string>
     <string name="title_sort_by_test_results">Sorting by test results</string>
     <string name="title_filter_config">Filter configuration file</string>

@@ -63,6 +63,7 @@ fun LoginScreen(
             text = stringResource(R.string.title_sign_in),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp, 32.dp)

@@ -97,7 +97,8 @@ class MainRecyclerAdapter(val activity: MainActivity) : RecyclerView.Adapter<Mai
                     holder.itemMainBinding.tvType.text = config.configType.name.lowercase()
                 }
             }
-            val strState = "${outbound?.getServerAddress()?.dropLast(3)}*** : ${outbound?.getServerPort()}"
+            val strState = config.getV2rayPointProtocol()
+            //val strState = "${outbound?.getServerAddress()?.dropLast(3)}*** : ${outbound?.getServerPort()}"
             holder.itemMainBinding.tvStatistics.text = strState
 
             holder.itemMainBinding.layoutShare.setOnClickListener {

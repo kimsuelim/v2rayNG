@@ -150,7 +150,8 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center|start"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/png_height"
@@ -176,7 +177,8 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center|start"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/png_height"
