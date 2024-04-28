@@ -116,7 +116,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         copyAssets()
         //migrateLegacy()
         syncServers()
-        SentryConfig.attachCustomContext()
+        //attachCustomContext()
         activateDevice()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -159,6 +159,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // Display result of the network request to the user
             mainViewModel.reloadServerList()
         }
+    }
+
+    private fun attachCustomContext() {
+        SentryConfig.attachCustomContext()
     }
 
     private fun setupViewModel() {
