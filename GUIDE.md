@@ -34,3 +34,5 @@
 
 ### Tools
 * [localtunnel](https://github.com/localtunnel/localtunnel)
+* [IconKitchen](https://icon.kitchen)
+* [Create app icons](https://developer.android.com/studio/write/create-app-icons)
