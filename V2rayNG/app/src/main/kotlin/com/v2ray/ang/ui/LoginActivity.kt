@@ -11,13 +11,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.v2ray.ang.viewmodel.LoginViewModel
 import com.v2ray.ang.AppConfig
+import com.v2ray.ang.cloud.ServerManager
 import com.v2ray.ang.cloud.UserManager
 import com.v2ray.ang.cloud.UserManager.setDeviceAdmin
 import com.v2ray.ang.cloud.ui.LoginScreen
 import com.v2ray.ang.extension.toast
 import io.sentry.Sentry
+import kotlinx.coroutines.launch
 
 
 class LoginActivity : ComponentActivity() {
@@ -26,8 +29,10 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initDevice()
         installSplashScreen()
+
+        initDevice()
+        syncServers()
 
         val intent = Intent(this, MainActivity::class.java)
         if (UserManager.isAuthenticated()) {
@@ -64,10 +69,15 @@ class LoginActivity : ComponentActivity() {
 
     private fun initDevice() {
         try {
-            //UserManager.clearDeviceUser()
             setDeviceAdmin()
         } catch (e: Exception) {
             Sentry.captureException(e)
+        }
+    }
+
+    private fun syncServers() {
+        lifecycleScope.launch {
+            ServerManager.syncServerWithCloud()
         }
     }
 }
