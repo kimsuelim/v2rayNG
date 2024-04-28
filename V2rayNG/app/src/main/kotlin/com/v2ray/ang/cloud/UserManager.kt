@@ -2,6 +2,7 @@ package com.v2ray.ang.cloud
 
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
+import com.v2ray.ang.BuildConfig
 import com.v2ray.ang.cloud.dto.UserDto
 import com.v2ray.ang.util.MmkvManager
 
@@ -37,8 +38,8 @@ object UserManager {
     fun setDeviceAdmin() {
         val admin = UserDto(
             name = "admin",
-            email = "admin@admin",
-            password = "admin"
+            email = BuildConfig.ADMIN_USERNAME,
+            password = BuildConfig.ADMIN_PASSWORD
         )
 
         val jsonStr = Gson().toJson(admin)

@@ -16,6 +16,9 @@ android {
         versionCode = 554
         versionName = "1.8.20"
         multiDexEnabled = true
+
+        buildConfigField("String", "ADMIN_USERNAME", project.properties["ADMIN_USERNAME"].toString())
+        buildConfigField("String", "ADMIN_PASSWORD", project.properties["ADMIN_PASSWORD"].toString())
     }
 
     compileOptions {
@@ -31,6 +34,8 @@ android {
             buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
+            buildConfigField("String", "ADMIN_USERNAME", "\"${System.getenv("ADMIN_USERNAME")}\"")
+            buildConfigField("String", "ADMIN_PASSWORD", "\"${System.getenv("ADMIN_PASSWORD")}\"")
         }
 
         debug {
@@ -48,6 +53,8 @@ android {
             buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
+            buildConfigField("String", "ADMIN_USERNAME", "\"${System.getenv("ADMIN_USERNAME")}\"")
+            buildConfigField("String", "ADMIN_PASSWORD", "\"${System.getenv("ADMIN_PASSWORD")}\"")
         }
 
         create("internal") {

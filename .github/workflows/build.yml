@@ -55,6 +55,8 @@ jobs:
         API_HOST_URL: ${{ secrets.API_HOST_URL }}
         HTTP_BASIC_AUTH_USER: ${{ secrets.HTTP_BASIC_AUTH_USER }}
         HTTP_BASIC_AUTH_PASSWORD: ${{ secrets.HTTP_BASIC_AUTH_PASSWORD }}
+        ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
       run: |
         cd ${{ github.workspace }}/V2rayNG
         chmod 755 gradlew
