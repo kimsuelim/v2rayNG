@@ -10,15 +10,12 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.v2ray.ang"
+        applicationId = "net.giantpanda.app"
         minSdk = 21
         targetSdk = 34
-        versionCode = 554
-        versionName = "1.8.20"
+        versionCode = 10
+        versionName = "0.10.0"
         multiDexEnabled = true
-
-        buildConfigField("String", "ADMIN_USERNAME", project.properties["ADMIN_USERNAME"].toString())
-        buildConfigField("String", "ADMIN_PASSWORD", project.properties["ADMIN_PASSWORD"].toString())
     }
 
     compileOptions {
@@ -45,6 +42,8 @@ android {
             buildConfigField("String", "API_HOST_URL", project.properties["DEBUG_API_URL"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_USER", project.properties["HTTP_BASIC_AUTH_USER"].toString())
             buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", project.properties["HTTP_BASIC_AUTH_PASSWORD"].toString())
+            buildConfigField("String", "ADMIN_USERNAME", project.properties["ADMIN_USERNAME"].toString())
+            buildConfigField("String", "ADMIN_PASSWORD", project.properties["ADMIN_PASSWORD"].toString())
         }
 
         create("staging") {
@@ -77,7 +76,9 @@ android {
     splits {
         abi {
             isEnable = true
-            isUniversalApk = true
+            reset()
+            include("arm64-v8a", "x86_64")
+            isUniversalApk = false
         }
     }
 
@@ -94,13 +95,11 @@ android {
                 else
                     "all"
 
-                output.outputFileName = "v2rayNG_${variant.versionName}_${abi}.apk"
-                if(versionCodes.containsKey(abi))
-                {
-                    output.versionCodeOverride = (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
-                }
-                else
-                {
+                output.outputFileName = "panda_${variant.versionName}_${abi}.apk"
+                if (versionCodes.containsKey(abi)) {
+                    output.versionCodeOverride =
+                        (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
+                } else {
                     return@forEach
                 }
             }

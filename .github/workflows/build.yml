@@ -8,10 +8,9 @@ on:
         description: 'Xray core version or commit hash'
         required: false
 
-
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout code
@@ -33,21 +32,19 @@ jobs:
         go install golang.org/x/mobile/cmd/gomobile@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
-
 
     - name: Build dependencies
       run: |
         mkdir ${{ github.workspace }}/build
         cd ${{ github.workspace }}/build
-        git clone --depth=1 -b main https://github.com/kimsuelim/AndroidLibXrayLite.git
+        git clone https://github.com/kimsuelim/AndroidLibXrayLite.git
         cd AndroidLibXrayLite
         go get github.com/xtls/xray-core@${{ github.event.inputs.XRAY_CORE_VERSION }} || true
         gomobile init
         go mod tidy -v
-        gomobile bind -v -androidapi 19 -ldflags='-s -w' ./
+        gomobile bind -v -androidapi 21 -ldflags='-s -w' ./
         cp *.aar ${{ github.workspace }}/V2rayNG/app/libs/
 
     - name: Build APK
@@ -67,3 +64,39 @@ jobs:
       with:
         name: apk
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/staging/
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v') # if the current push event is for a tag starting with v.(ex: git push origin v0.2.0)
+    needs: build
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Version
+        id: prep
+        env:
+          REF: ${{ github.ref }}
+        shell: bash
+        run: |
+          echo "P_DIR=$(pwd)" >> $GITHUB_OUTPUT
+          tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          version=${tag:1}
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+          echo "VERSION=$version" >> $GITHUB_ENV
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: builds/
+      - name: Display structure of downloaded files
+        run: ls -R builds
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          Latest_Releases=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/kimsuelim/v2rayNG/releases/latest | jq -r '.tag_name')
+          Latest_tag=v${{ steps.prep.outputs.VERSION }}
+          if [ "$Latest_Releases" != "$Latest_tag" ]; then
+          gh release create "v${{ steps.prep.outputs.VERSION }}" -t "v${{ steps.prep.outputs.VERSION }}" --generate-notes
+          fi
+          gh release upload "v${{ steps.prep.outputs.VERSION }}" builds/apk/*
+
