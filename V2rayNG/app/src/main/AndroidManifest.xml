@@ -230,21 +230,29 @@
 
         </provider>
 
-    
-    <!-- Required: set your sentry.io project identifier (DSN) -->
-    <meta-data android:name="io.sentry.dsn" android:value="https://8cba04862eaebc38000e519d37127706@o4507083982700544.ingest.us.sentry.io/4507117319487488" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.cache"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cache_paths"/>
+        </provider>
 
-    <!-- enable automatic breadcrumbs for user interactions (clicks, swipes, scrolls) -->
-    <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
-    <!-- enable screenshot for crashes (could contain sensitive/PII data) -->
-    <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
-    <!-- enable view hierarchy for crashes -->
-    <meta-data android:name="io.sentry.attach-view-hierarchy" android:value="true" />
+        <!-- Required: set your sentry.io project identifier (DSN) -->
+        <meta-data android:name="io.sentry.dsn" android:value="https://8cba04862eaebc38000e519d37127706@o4507083982700544.ingest.us.sentry.io/4507117319487488" />
 
-    <!-- enable the performance API by setting a sample-rate, adjust in production env -->
-    <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
-    <!-- enable profiling when starting transactions, adjust in production env -->
-    <meta-data android:name="io.sentry.traces.profiling.sample-rate" android:value="1.0" />
-</application>
+        <!-- enable automatic breadcrumbs for user interactions (clicks, swipes, scrolls) -->
+        <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
+        <!-- enable screenshot for crashes (could contain sensitive/PII data) -->
+        <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
+        <!-- enable view hierarchy for crashes -->
+        <meta-data android:name="io.sentry.attach-view-hierarchy" android:value="true" />
 
+        <!-- enable the performance API by setting a sample-rate, adjust in production env -->
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
+        <!-- enable profiling when starting transactions, adjust in production env -->
+        <meta-data android:name="io.sentry.traces.profiling.sample-rate" android:value="1.0" />
+    </application>
 </manifest>

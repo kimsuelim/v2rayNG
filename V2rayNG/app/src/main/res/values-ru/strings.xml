@@ -179,6 +179,7 @@
     <string name="title_configuration_backup">Резервирование</string>
     <string name="summary_configuration_backup">Путь: [%s]. Резервная копия будет стёрта при удалении приложения или очистке хранилища.</string>
     <string name="title_configuration_restore">Восстановление</string>
+    <string name="title_configuration_share">Share configuration</string>
 
     <string name="title_pref_promotion">Содействие</string>
     <string name="summary_pref_promotion">Содействие, нажмите для получения подробной информации (пожертвование может быть удалено)</string>
@@ -192,7 +193,7 @@
     <string name="title_mode_help">Нажмите для получения дополнительной информации</string>
     <string name="title_language">Язык</string>
     <string name="title_ui_settings">Настройки интерфейса</string>
-    <string name="title_pref_ui_mode_night">UI mode settings</string>
+    <string name="title_pref_ui_mode_night">Тема интерфейса</string>
 
     <string name="title_logcat">Журнал</string>
     <string name="logcat_copy">Копировать</string>
@@ -275,9 +276,9 @@
     </string-array>
 
     <string-array name="ui_mode_night">
-        <item>Follow system</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>Как в системе</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
     </string-array>
 
 </resources>

@@ -3,12 +3,12 @@ package com.v2ray.ang.ui
 import android.content.Intent
 import android.graphics.Color
 import android.text.TextUtils
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 import com.v2ray.ang.AngApplication.Companion.application
@@ -73,9 +73,9 @@ class MainRecyclerAdapter(val activity: MainActivity) : RecyclerView.Adapter<Mai
                 holder.itemMainBinding.tvTestResult.setTextColor(ContextCompat.getColor(mActivity, R.color.colorPing))
             }
             if (guid == mainStorage?.decodeString(MmkvManager.KEY_SELECTED_SERVER)) {
-                holder.itemMainBinding.layoutIndicator.setBackgroundResource(R.color.colorSelected)
+                holder.itemMainBinding.layoutIndicator.setBackgroundResource(R.color.colorAccent)
             } else {
-                holder.itemMainBinding.layoutIndicator.setBackgroundResource(R.color.colorUnselected)
+                holder.itemMainBinding.layoutIndicator.setBackgroundResource(0)
             }
             holder.itemMainBinding.tvSubscription.text = ""
             val json = subStorage?.decodeString(config.subscriptionId)
@@ -167,13 +167,11 @@ class MainRecyclerAdapter(val activity: MainActivity) : RecyclerView.Adapter<Mai
                     }
                     notifyItemChanged(mActivity.mainViewModel.getPosition(guid))
                     if (isRunning) {
-                        mActivity.showCircle()
                         Utils.stopVService(mActivity)
                         Observable.timer(500, TimeUnit.MILLISECONDS)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe {
                                     V2RayServiceManager.startV2Ray(mActivity)
-                                    mActivity.hideCircle()
                                 }
                     }
                 }
