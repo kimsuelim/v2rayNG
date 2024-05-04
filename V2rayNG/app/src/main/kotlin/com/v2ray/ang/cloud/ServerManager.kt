@@ -3,7 +3,6 @@ package com.v2ray.ang.cloud
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.v2ray.ang.AppConfig
 import com.v2ray.ang.cloud.Http.getApiHost
 import com.v2ray.ang.util.AngConfigManager.importBatchConfig
 import com.v2ray.ang.util.MmkvManager
@@ -51,7 +50,7 @@ object ServerManager {
                     }
                 }
             } catch (e: IOException) {
-                Log.d(AppConfig.ANG_PACKAGE, e.toString())
+                Log.d("ServerManager", e.toString())
             }
         }
     }
@@ -61,7 +60,7 @@ object ServerManager {
         return try {
             Http.get(url)
         } catch (e: IOException) {
-            Log.d(AppConfig.ANG_PACKAGE, e.toString())
+            Log.d("ServerManager", e.toString())
             throw e
         }
     }

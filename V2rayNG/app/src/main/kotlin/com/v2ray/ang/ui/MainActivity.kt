@@ -143,7 +143,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun activateDevice() {
         lifecycleScope.launch {
             if (DeviceManager.isActivated()) {
-                Log.i(ANG_PACKAGE, "activateDevice: activated")
+                Log.i("Device", "activated: ${DeviceManager.getDeviceUuid()}")
             } else {
                 DeviceManager.activateDevice()
             }

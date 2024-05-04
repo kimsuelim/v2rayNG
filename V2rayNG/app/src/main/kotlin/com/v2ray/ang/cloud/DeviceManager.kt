@@ -3,7 +3,6 @@ package com.v2ray.ang.cloud
 import android.util.Log
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
-import com.v2ray.ang.AppConfig
 import com.v2ray.ang.cloud.Http.getApiHost
 import com.v2ray.ang.cloud.dto.DeviceDto
 import com.v2ray.ang.util.MmkvManager
@@ -29,12 +28,12 @@ object DeviceManager {
 
                 val jsonString = Gson().toJson(deviceDto)
                 val resp = Http.post(url, jsonString)
-                Log.i(AppConfig.ANG_PACKAGE, "activateDevice: $resp")
+                Log.i("Device", "activateDevice: $resp")
 
                 setDeviceUuid(deviceDto.uuid)
             } catch (e: Exception) {
                 Sentry.captureException(e)
-                Log.d(AppConfig.ANG_PACKAGE, "activateDevice", e)
+                Log.d("Device", "activateDevice", e)
             }
         }
     }
@@ -44,10 +43,10 @@ object DeviceManager {
             try {
                 val url = getApiHost() + "/devices" + "/" + getDeviceUuid()
                 val resp = Http.get(url)
-                Log.i(AppConfig.ANG_PACKAGE, "getActivatedDevice: $resp")
+                Log.i("Device", "getActivatedDevice: $resp")
             } catch (e: Exception) {
                 Sentry.captureException(e)
-                Log.d(AppConfig.ANG_PACKAGE, "getActivatedDevice", e)
+                Log.d("Device", "getActivatedDevice", e)
             }
         }
     }

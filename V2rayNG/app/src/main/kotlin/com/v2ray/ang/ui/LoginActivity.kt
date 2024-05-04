@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.v2ray.ang.viewmodel.LoginViewModel
-import com.v2ray.ang.AppConfig
 import com.v2ray.ang.cloud.ServerManager
 import com.v2ray.ang.cloud.UserManager
 import com.v2ray.ang.cloud.UserManager.setDeviceAdmin
@@ -45,12 +44,12 @@ class LoginActivity : ComponentActivity() {
         }
 
         loginViewModel.isAuthenticated.observe(this) { isAuthenticated ->
-            Log.d(AppConfig.ANG_PACKAGE, "LoginActivity onCreate: isAuthenticated= $isAuthenticated")
+            Log.d("LoginActivity", "onCreate: isAuthenticated=$isAuthenticated")
 
             if (isAuthenticated == false) return@observe
 
             val user = UserManager.getDeviceUser()
-            Log.d(AppConfig.ANG_PACKAGE, "LoginActivity onCreate: user= $user")
+            Log.d("LoginActivity", "LoginActivity onCreate: user=$user")
             startActivity(intent)
         }
 

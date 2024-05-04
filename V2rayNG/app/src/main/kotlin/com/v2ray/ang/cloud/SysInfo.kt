@@ -2,7 +2,6 @@ package com.v2ray.ang.cloud
 
 import android.os.Build
 import android.util.Log
-import com.v2ray.ang.AppConfig
 import com.v2ray.ang.BuildConfig
 import java.net.Inet4Address
 import java.net.NetworkInterface
@@ -39,7 +38,7 @@ object SysInfo {
                 }
             }
         } catch (e: SocketException) {
-            Log.d(AppConfig.ANG_PACKAGE, "getLocalIpAddress", e)
+            Log.d("SysInfo", "getLocalIpAddress", e)
         }
 
         return netInfos
