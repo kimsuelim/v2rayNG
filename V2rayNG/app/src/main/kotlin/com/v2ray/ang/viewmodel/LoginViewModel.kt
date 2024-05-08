@@ -7,12 +7,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.auth0.android.jwt.JWT
 import com.google.gson.Gson
 import com.v2ray.ang.R
 import com.v2ray.ang.cloud.Http
 import com.v2ray.ang.cloud.UserManager
 import com.v2ray.ang.cloud.UserManager.getDeviceAdmin
+import com.v2ray.ang.cloud.dto.LoginResponseDto
 import com.v2ray.ang.cloud.dto.UserDto
+import com.v2ray.ang.cloud.dto.LoginRequestDto
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,15 +40,21 @@ class LoginViewModel : ViewModel() {
                         return@withContext
                     } else {
                         val url = Http.getApiHost() + "/login"
-                        val userParams = UserDto(
-                            name = userName,
+                        val loginParams = LoginRequestDto(
                             email = userName,
                             password = userPassword
                         )
-                        val jsonString = Gson().toJson(userParams)
+                        val jsonString = Gson().toJson(loginParams)
                         val resp = Http.post(url, jsonString)
-                        Log.i(TAG, "Resp: $resp")
-                        val user = Gson().fromJson(resp, UserDto::class.java)
+
+                        val respDto = Gson().fromJson(resp, LoginResponseDto::class.java)
+                        val jwt = JWT(respDto.token)
+                        val user = UserDto(
+                            id = jwt.getClaim("user_id").asLong()!!,
+                            name = jwt.getClaim("name").asString()!!,
+                            email = jwt.getClaim("email").asString()!!,
+                            password = respDto.token
+                        )
 
                         signed(user)
                     }

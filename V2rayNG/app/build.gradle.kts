@@ -161,6 +161,9 @@ dependencies {
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
 
+    // Auth
+    implementation("com.auth0.android:jwtdecode:2.0.2")
+
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2024.04.01")
     implementation(composeBom)
