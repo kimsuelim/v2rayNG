@@ -1,7 +1,6 @@
 package com.v2ray.ang.cloud
 
 import com.v2ray.ang.BuildConfig
-import com.v2ray.ang.util.Utils
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -12,11 +11,10 @@ object Http {
     fun get(urlStr: String): String {
         val url = URL(urlStr)
         val conn = url.openConnection()
-//        val encodedAuth = Base64.encodeToString(auth.toByteArray(), Base64.DEFAULT)
-        val auth = BuildConfig.HTTP_BASIC_AUTH_USER + ":" + BuildConfig.HTTP_BASIC_AUTH_PASSWORD
+        val auth = TokenManager.getAccessToken()
 
         conn.setRequestProperty("User-agent", "v2rayNG/${BuildConfig.VERSION_NAME}")
-        conn.setRequestProperty("Authorization", "Basic ${Utils.encode(auth)}")
+        conn.setRequestProperty("Authorization", "Bearer $auth")
         conn.useCaches = false
 
         return conn.inputStream.use {
@@ -27,14 +25,14 @@ object Http {
     @Throws(IOException::class)
     fun post(urlStr: String, jsonBody: String): String {
         val url = URL(urlStr)
-        val auth = BuildConfig.HTTP_BASIC_AUTH_USER + ":" + BuildConfig.HTTP_BASIC_AUTH_PASSWORD
+        val auth = TokenManager.getAccessToken()
 
         (url.openConnection() as? HttpURLConnection)?.run {
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json; utf-8")
             setRequestProperty("Accept", "application/json")
             setRequestProperty("User-agent", "v2rayNG/${BuildConfig.VERSION_NAME}")
-            setRequestProperty("Authorization", "Basic ${Utils.encode(auth)}")
+            setRequestProperty("Authorization", "Bearer $auth")
             doOutput = true
             outputStream.write(jsonBody.toByteArray())
 

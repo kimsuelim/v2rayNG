@@ -56,7 +56,7 @@ object ServerManager {
     }
 
     private fun getServerFromCloud(): String {
-        val url = getApiHost() + "/servers"
+        val url = getApiHost() + "/me/servers"
         return try {
             Http.get(url)
         } catch (e: IOException) {

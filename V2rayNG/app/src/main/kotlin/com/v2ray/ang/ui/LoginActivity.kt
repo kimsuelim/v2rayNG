@@ -31,7 +31,6 @@ class LoginActivity : ComponentActivity() {
         installSplashScreen()
 
         initDevice()
-        syncServers()
 
         val intent = Intent(this, MainActivity::class.java)
         if (UserManager.isAuthenticated()) {
@@ -48,8 +47,7 @@ class LoginActivity : ComponentActivity() {
 
             if (isAuthenticated == false) return@observe
 
-            val user = UserManager.getDeviceUser()
-            Log.d("LoginActivity", "LoginActivity onCreate: user=$user")
+            syncUserServers()
             startActivity(intent)
         }
 
@@ -74,7 +72,11 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    private fun syncServers() {
+    private fun syncUserServers() {
+        val user = UserManager.getDeviceUser()
+
+        Log.d("LoginActivity", "syncUserServers: User: ${user.id}")
+
         lifecycleScope.launch {
             ServerManager.syncServerWithCloud()
         }
