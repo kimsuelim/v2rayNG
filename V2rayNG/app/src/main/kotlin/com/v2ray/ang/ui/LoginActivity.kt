@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.v2ray.ang.cloud.DeviceManager.setDeviceUUID
 import com.v2ray.ang.viewmodel.LoginViewModel
 import com.v2ray.ang.cloud.ServerManager
 import com.v2ray.ang.cloud.UserManager
@@ -66,6 +67,7 @@ class LoginActivity : ComponentActivity() {
 
     private fun initDevice() {
         try {
+            setDeviceUUID()
             setDeviceAdmin()
         } catch (e: Exception) {
             Sentry.captureException(e)

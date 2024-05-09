@@ -16,24 +16,22 @@ object DeviceManager {
 
     private val deviceStorage by lazy { MMKV.mmkvWithID(MmkvManager.ID_DEVICE, MMKV.MULTI_PROCESS_MODE) }
 
-    suspend fun activateDevice(): Any {
+    suspend fun registerDevice(): Any {
         return withContext(Dispatchers.IO) {
             try {
                 val url = getApiHost() + "/devices"
                 val deviceDto = DeviceDto(
-                    uuid = getDeviceUuid(),
+                    uuid = getDeviceUUID(),
                     networkInfo = SysInfo.networkInfo(),
                     softwareInfo = SysInfo.softwareInfo()
                 )
 
                 val jsonString = Gson().toJson(deviceDto)
                 val resp = Http.post(url, jsonString)
-                Log.i("Device", "activateDevice: $resp")
-
-                setDeviceUuid(deviceDto.uuid)
+                Log.i("Device", "registerDevice: $resp")
             } catch (e: Exception) {
                 Sentry.captureException(e)
-                Log.d("Device", "activateDevice", e)
+                Log.e("Device", "registerDevice", e)
             }
         }
     }
@@ -41,7 +39,7 @@ object DeviceManager {
     suspend fun getActivatedDevice(): Any {
         return withContext(Dispatchers.IO) {
             try {
-                val url = getApiHost() + "/devices" + "/" + getDeviceUuid()
+                val url = getApiHost() + "/devices" + "/" + getDeviceUUID()
                 val resp = Http.get(url)
                 Log.i("Device", "getActivatedDevice: $resp")
             } catch (e: Exception) {
@@ -51,19 +49,24 @@ object DeviceManager {
         }
     }
 
-    private fun setDeviceUuid(uuid: String) {
+     fun setDeviceUUID() {
+        if (isInitialized()) return
+        setDeviceUUID(UUID.randomUUID().toString())
+    }
+
+    fun setDeviceUUID(uuid: String) {
         deviceStorage.encode(DEVICE_UUID, uuid)
     }
 
-    fun getDeviceUuid(): String {
-        return deviceStorage.decodeString(DEVICE_UUID, UUID.randomUUID().toString())!!
+    fun getDeviceUUID(): String {
+        return deviceStorage.decodeString(DEVICE_UUID)!!
     }
 
-    fun clearDeviceUuid() {
+    fun clearDeviceUUID() {
         deviceStorage.encode(DEVICE_UUID, "")
     }
 
-    fun isActivated(): Boolean {
+    private fun isInitialized(): Boolean {
         return !deviceStorage.decodeString(DEVICE_UUID).isNullOrBlank()
     }
 }

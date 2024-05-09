@@ -117,7 +117,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //migrateLegacy()
         syncServers()
         //attachCustomContext()
-        activateDevice()
+        registerDevice()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RxPermissions(this)
@@ -140,13 +140,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         })
     }
 
-    private fun activateDevice() {
+    private fun registerDevice() {
         lifecycleScope.launch {
-            if (DeviceManager.isActivated()) {
-                Log.i("Device", "activated: ${DeviceManager.getDeviceUuid()}")
-            } else {
-                DeviceManager.activateDevice()
-            }
+            DeviceManager.registerDevice()
         }
     }
 
