@@ -59,6 +59,10 @@ object DeviceManager {
         return deviceStorage.decodeString(DEVICE_UUID, UUID.randomUUID().toString())!!
     }
 
+    fun clearDeviceUuid() {
+        deviceStorage.encode(DEVICE_UUID, "")
+    }
+
     fun isActivated(): Boolean {
         return !deviceStorage.decodeString(DEVICE_UUID).isNullOrBlank()
     }
