@@ -29,8 +29,6 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
             buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
-            buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
-            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
             buildConfigField("String", "ADMIN_USERNAME", "\"${System.getenv("ADMIN_USERNAME")}\"")
             buildConfigField("String", "ADMIN_PASSWORD", "\"${System.getenv("ADMIN_PASSWORD")}\"")
         }
@@ -40,8 +38,6 @@ android {
             isDebuggable = true
 
             buildConfigField("String", "API_HOST_URL", project.properties["DEBUG_API_URL"].toString())
-            buildConfigField("String", "HTTP_BASIC_AUTH_USER", project.properties["HTTP_BASIC_AUTH_USER"].toString())
-            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", project.properties["HTTP_BASIC_AUTH_PASSWORD"].toString())
             buildConfigField("String", "ADMIN_USERNAME", project.properties["ADMIN_USERNAME"].toString())
             buildConfigField("String", "ADMIN_PASSWORD", project.properties["ADMIN_PASSWORD"].toString())
         }
@@ -50,8 +46,6 @@ android {
             initWith(getByName("debug"))
             applicationIdSuffix = ".staging"
             buildConfigField("String", "API_HOST_URL", "\"${System.getenv("API_HOST_URL")}\"")
-            buildConfigField("String", "HTTP_BASIC_AUTH_USER", "\"${System.getenv("HTTP_BASIC_AUTH_USER")}\"")
-            buildConfigField("String", "HTTP_BASIC_AUTH_PASSWORD", "\"${System.getenv("HTTP_BASIC_AUTH_PASSWORD")}\"")
             buildConfigField("String", "ADMIN_USERNAME", "\"${System.getenv("ADMIN_USERNAME")}\"")
             buildConfigField("String", "ADMIN_PASSWORD", "\"${System.getenv("ADMIN_PASSWORD")}\"")
         }
