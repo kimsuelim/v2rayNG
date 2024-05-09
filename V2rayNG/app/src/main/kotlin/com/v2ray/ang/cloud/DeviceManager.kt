@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 import com.v2ray.ang.cloud.Http.getApiHost
 import com.v2ray.ang.cloud.dto.DeviceDto
+import com.v2ray.ang.cloud.dto.ManageDeviceDto
 import com.v2ray.ang.util.MmkvManager
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,24 @@ object DeviceManager {
             } catch (e: Exception) {
                 Sentry.captureException(e)
                 Log.e("Device", "registerDevice", e)
+            }
+        }
+    }
+
+    suspend fun managingDevice(): Any {
+        return withContext(Dispatchers.IO) {
+            try {
+                val url = getApiHost() + "/me/manage_devices"
+                val manageDeviceDto = ManageDeviceDto(
+                    uuid = getDeviceUUID(),
+                )
+
+                val jsonString = Gson().toJson(manageDeviceDto)
+                val resp = Http.post(url, jsonString)
+                Log.i("Device", "managingDevice: $resp")
+            } catch (e: Exception) {
+                Sentry.captureException(e)
+                Log.e("Device", "managingDevice", e)
             }
         }
     }

@@ -143,6 +143,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun registerDevice() {
         lifecycleScope.launch {
             DeviceManager.registerDevice()
+            DeviceManager.managingDevice()
         }
     }
 
