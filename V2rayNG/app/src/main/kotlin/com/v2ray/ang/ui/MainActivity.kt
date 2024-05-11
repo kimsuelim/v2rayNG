@@ -33,6 +33,7 @@ import com.v2ray.ang.R
 import com.v2ray.ang.cloud.DeviceManager
 import com.v2ray.ang.cloud.SentryConfig
 import com.v2ray.ang.cloud.ServerManager
+import com.v2ray.ang.cloud.UserNotAuthorizedException
 import com.v2ray.ang.databinding.ActivityMainBinding
 import com.v2ray.ang.dto.EConfigType
 import com.v2ray.ang.extension.toast
@@ -41,6 +42,7 @@ import com.v2ray.ang.service.V2RayServiceManager
 import com.v2ray.ang.util.AngConfigManager
 import com.v2ray.ang.util.MmkvManager
 import com.v2ray.ang.util.Utils
+import com.v2ray.ang.viewmodel.LoginViewModel
 import com.v2ray.ang.viewmodel.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,6 +66,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     private var mItemTouchHelper: ItemTouchHelper? = null
     val mainViewModel: MainViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,20 +145,36 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun registerDevice() {
         lifecycleScope.launch {
-            DeviceManager.registerDevice()
-            DeviceManager.managingDevice()
+            try {
+                DeviceManager.registerDevice()
+                DeviceManager.managingDevice()
+            } catch (e: UserNotAuthorizedException) {
+                logoutAndRedirectToLogin()
+            }
         }
     }
 
     private fun syncServers() {
         // Create a new coroutine on the UI thread
         lifecycleScope.launch {
-            // Make the network call and suspend execution until it finishes
-            ServerManager.syncServerWithCloud()
+            try {
+                // Make the network call and suspend execution until it finishes
+                ServerManager.syncServerWithCloud()
 
-            // Display result of the network request to the user
-            mainViewModel.reloadServerList()
+                // Display result of the network request to the user
+                mainViewModel.reloadServerList()
+            } catch (e: UserNotAuthorizedException) {
+                logoutAndRedirectToLogin()
+            }
         }
+    }
+
+    private fun logoutAndRedirectToLogin() {
+        Log.d("MainActivity", "UserNotAuthorized: Redirect to login screen")
+        loginViewModel.logout()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     private fun attachCustomContext() {

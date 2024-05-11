@@ -19,4 +19,7 @@
     <string name="error_sign_in">Invalid email or password</string>
     <string name="error_title">Whoops</string>
     <string name="error_action">OK</string>
+
+    <string name="error_connecting_server">error occurred connecting to the server</string>
+    <string name="error_something_went_wrong">Something went wrong!</string>
 </resources>

@@ -13,6 +13,7 @@ import com.v2ray.ang.R
 import com.v2ray.ang.cloud.Http
 import com.v2ray.ang.cloud.UserManager
 import com.v2ray.ang.cloud.UserManager.getDeviceAdmin
+import com.v2ray.ang.cloud.UserNotAuthorizedException
 import com.v2ray.ang.cloud.dto.LoginResponseDto
 import com.v2ray.ang.cloud.dto.UserDto
 import com.v2ray.ang.cloud.dto.LoginRequestDto
@@ -58,14 +59,15 @@ class LoginViewModel : ViewModel() {
 
                         signed(user)
                     }
+                } catch (e: UserNotAuthorizedException) {
+                    Log.e(TAG, "Invalid email or password: $e")
+                    showToast.postValue(R.string.error_sign_in.toString())
                 } catch (e: IOException) {
                     Log.e(TAG, "Error occurred in login(): $e")
-                    //error = R.string.error_sign_in.toString()
-                    showToast.postValue(R.string.error_sign_in.toString())
+                    showToast.postValue(R.string.error_connecting_server.toString())
                 } catch (e: Exception) {
                     Log.e(TAG, "Error occurred in login(): $e")
-                    //error = "Something went wrong!"
-                    showToast.postValue(R.string.error_sign_in.toString())
+                    showToast.postValue(R.string.error_something_went_wrong.toString())
                     Sentry.captureException(e)
                 }
             }
@@ -89,6 +91,6 @@ class LoginViewModel : ViewModel() {
     fun logout() {
         UserManager.clearDeviceUser()
         userIsAuthenticated = false
-        isAuthenticated.value = false
+        isAuthenticated.postValue(true)
     }
 }

@@ -10,12 +10,14 @@ object Http {
     @Throws(IOException::class)
     fun get(urlStr: String): String {
         val url = URL(urlStr)
-        val conn = url.openConnection()
+        val conn = url.openConnection() as HttpURLConnection
         val auth = TokenManager.getAccessToken()
 
         conn.setRequestProperty("User-agent", "v2rayNG/${BuildConfig.VERSION_NAME}")
         conn.setRequestProperty("Authorization", "Bearer $auth")
         conn.useCaches = false
+
+        if (conn.responseCode == 401) throw UserNotAuthorizedException(conn.responseMessage)
 
         return conn.inputStream.use {
             it.bufferedReader().readText()
@@ -36,6 +38,8 @@ object Http {
             doOutput = true
             outputStream.write(jsonBody.toByteArray())
 
+            if (responseCode == 401) throw UserNotAuthorizedException(responseMessage)
+
             return inputStream.use { it.bufferedReader().readText() }
         }
 
@@ -46,3 +50,5 @@ object Http {
        return BuildConfig.API_HOST_URL
     }
 }
+
+class UserNotAuthorizedException(message: String) : Exception(message)

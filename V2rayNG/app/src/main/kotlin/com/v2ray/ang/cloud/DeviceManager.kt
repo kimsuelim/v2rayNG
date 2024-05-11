@@ -30,6 +30,9 @@ object DeviceManager {
                 val jsonString = Gson().toJson(deviceDto)
                 val resp = Http.post(url, jsonString)
                 Log.i("Device", "registerDevice: $resp")
+            } catch (e: UserNotAuthorizedException) {
+                Log.e("Device", "registerDevice", e)
+                throw e
             } catch (e: Exception) {
                 Sentry.captureException(e)
                 Log.e("Device", "registerDevice", e)
@@ -48,6 +51,9 @@ object DeviceManager {
                 val jsonString = Gson().toJson(manageDeviceDto)
                 val resp = Http.post(url, jsonString)
                 Log.i("Device", "managingDevice: $resp")
+            } catch (e: UserNotAuthorizedException) {
+                Log.e("Device", "managingDevice", e)
+                throw e
             } catch (e: Exception) {
                 Sentry.captureException(e)
                 Log.e("Device", "managingDevice", e)

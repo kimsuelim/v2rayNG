@@ -10,7 +10,7 @@ object TokenManager {
             val userDto = UserManager.getDeviceUser()
             userDto.password
         } catch (e: NullPointerException) {
-            Log.e(TAG, "Error occurred in getAccessToken(): $e")
+            Log.e(TAG, "Error occurred in getAccessToken(): $e") // when fresh login request
             ""
         }
     }
