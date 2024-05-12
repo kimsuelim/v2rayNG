@@ -23,6 +23,7 @@ object DeviceManager {
                 val url = getApiHost() + "/devices"
                 val deviceDto = DeviceDto(
                     uuid = getDeviceUUID(),
+                    hostInfo = SysInfo.hostInfo(),
                     networkInfo = SysInfo.networkInfo(),
                     softwareInfo = SysInfo.softwareInfo()
                 )
