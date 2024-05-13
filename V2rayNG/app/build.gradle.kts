@@ -13,8 +13,8 @@ android {
         applicationId = "net.giantpanda.app"
         minSdk = 21
         targetSdk = 34
-        versionCode = 10
-        versionName = "0.10.0"
+        versionCode = 20
+        versionName = "0.20.0"
         multiDexEnabled = true
     }
 
